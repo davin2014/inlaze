@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component,signal } from '@angular/core';
 import { PublicationsCardComponent } from '../publications-card/publications-card.component';
 import { FormsModule } from '@angular/forms';
 
@@ -10,7 +10,7 @@ import { FormsModule } from '@angular/forms';
   styleUrl: './publications.component.css'
 })
 export class PublicationsComponent {
-  authenticated: boolean = false; 
+  authenticated = signal(false); 
   searchTerm: string = '';
    posts = [
     {
@@ -28,7 +28,12 @@ export class PublicationsComponent {
   constructor() {
     if (typeof localStorage !== 'undefined') {
       const authenticatedItem = localStorage.getItem('authenticated');
-      this.authenticated = authenticatedItem ? JSON.parse(authenticatedItem) : false;
+      if (authenticatedItem === 'true') {
+        this.authenticated.set(true);
+      }else{
+        this.authenticated.set(false);
+      }
+      
     }
    }
    searchPosts() {

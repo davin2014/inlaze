@@ -2,12 +2,13 @@ import { Component } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { LoginService } from '../auth/login.service';
 import {MatSnackBar} from '@angular/material/snack-bar';
-import { MatDialogRef } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { CreateAccountDialogComponent } from '../create-account-dialog/create-account-dialog.component';
 
 @Component({
   selector: 'app-login-dialog',
   standalone: true,
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule,CreateAccountDialogComponent],
   templateUrl: './login-dialog.component.html',
   styleUrl: './login-dialog.component.css'
 })
@@ -16,6 +17,7 @@ export class LoginDialogComponent {
   constructor(private fb: FormBuilder, 
     private loginService: LoginService,
     private _snackBar: MatSnackBar,
+    private dialog: MatDialog,
     private dialogRef: MatDialogRef<LoginDialogComponent>) {
     this.buildForm();
    }
@@ -47,4 +49,10 @@ export class LoginDialogComponent {
 
    // convenience getter for easy access to form fields
   get f() : { [key: string]: AbstractControl } { return this.loginForm.controls; }
+
+  openCreateAccountDialog(event: Event) {
+    event.preventDefault();
+    this.dialogRef.close();
+    this.dialog.open(CreateAccountDialogComponent);
+  }
 }

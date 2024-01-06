@@ -1,0 +1,28 @@
+<div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title">Crear nueva cuenta</h5>
+    </div>
+    <div class="modal-body">
+      <form [formGroup]="form"   (ngSubmit)="onSubmit($event)">
+        <div class="form-group">
+          <label for="fullName">Nombre completo</label>
+          <input type="text" class="form-control" id="fullName" formControlName="fullName">
+        </div>
+        <div class="form-group">
+          <label for="age">Edad</label>
+          <input type="number" class="form-control" id="age" formControlName="age">
+        </div>
+        <div class="form-group">
+          <label for="email">Correo electrónico</label>
+          <input type="email" class="form-control" id="email" formControlName="email">
+        </div>
+        <div class="form-group">
+          <label for="password">Contraseña</label>
+          <input type="password" class="form-control" id="password" formControlName="password">
+        </div>
+      </form>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-primary" [disabled]="form.invalid" >Crear</button>
+    </div>
+  </div>

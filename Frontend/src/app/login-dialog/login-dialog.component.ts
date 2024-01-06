@@ -53,6 +53,8 @@ export class LoginDialogComponent {
   openCreateAccountDialog(event: Event) {
     event.preventDefault();
     this.dialogRef.close();
-    this.dialog.open(CreateAccountDialogComponent);
+    this.dialog.open(CreateAccountDialogComponent, {
+      width: '500px'
+    });
   }
 }

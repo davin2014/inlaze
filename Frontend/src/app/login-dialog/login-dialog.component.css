@@ -44,3 +44,14 @@
   .error-message {
     color: red;
   }
+
+  .link-button {
+    background: none;
+    color: #000000;
+    border: none;
+    padding: 0;
+    font: inherit;
+    cursor: pointer;
+    text-decoration: underline;
+    font-size: 12px;
+  }

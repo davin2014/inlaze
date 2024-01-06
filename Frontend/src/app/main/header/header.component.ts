@@ -13,7 +13,7 @@ import { GlobalService } from '../../services/global.service';
   styleUrl: './header.component.css'
 })
 export class HeaderComponent implements OnInit {
-  user: User = {
+  user: User ={
     age: 0,
     createdAt: "",
     email: "",
@@ -23,7 +23,8 @@ export class HeaderComponent implements OnInit {
     __v : 0,
     _id: ""
   };
-  authenticated = signal(false);  
+  authenticated = signal(false); 
+  
 
   constructor(public dialog: MatDialog,
     private globalService: GlobalService) { 
@@ -32,6 +33,7 @@ export class HeaderComponent implements OnInit {
       this.user = userItem ? JSON.parse(userItem) : null;
     }
     this.globalService.checkAuthenticationStatus();
+    
   }
   login() {
     this.dialog.open(LoginDialogComponent);
@@ -47,5 +49,7 @@ export class HeaderComponent implements OnInit {
     this.globalService.authenticated$.subscribe((value:boolean) => {
         this.authenticated.set(value);
     });
-  }
+
+    
+}
 }

@@ -5,6 +5,7 @@ import {MatSnackBar} from '@angular/material/snack-bar';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { CreateAccountDialogComponent } from '../create-account-dialog/create-account-dialog.component';
 import { GlobalService } from '../services/global.service';
+import { TokenUser } from '../interfaces/token-user.inteface';
 
 @Component({
   selector: 'app-login-dialog',
@@ -29,9 +30,10 @@ export class LoginDialogComponent {
     if (this.loginForm.valid) {
       const value = this.loginForm.value;
       this.loginService.login(value.email, value.password)
-        .subscribe((res) => {
+        .subscribe((res:TokenUser) => {
           console.log(res);
           localStorage.setItem('user', JSON.stringify(res) );
+          this.globalService.setUser(res);
           localStorage.setItem('authenticated', 'true' );
           this.globalService.setAuthenticated(true);
           this._snackBar.open('¡Bienvenido de nuevo a INLAZE! Estamos encantados de verte', 'Dance');

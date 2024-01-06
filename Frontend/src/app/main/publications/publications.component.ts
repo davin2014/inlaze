@@ -2,6 +2,8 @@ import { Component,OnInit,signal } from '@angular/core';
 import { PublicationsCardComponent } from '../publications-card/publications-card.component';
 import { FormsModule } from '@angular/forms';
 import { GlobalService } from '../../services/global.service';
+import { User } from '../../interfaces/user.interface';
+import { TokenUser } from '../../interfaces/token-user.inteface';
 
 @Component({
   selector: 'app-publications',
@@ -12,6 +14,7 @@ import { GlobalService } from '../../services/global.service';
 })
 export class PublicationsComponent  implements OnInit {
   authenticated = signal(false); 
+  fullName = signal('anonimo');
   searchTerm: string = '';
    posts = [
     {
@@ -28,6 +31,7 @@ export class PublicationsComponent  implements OnInit {
 
   constructor(private globalService: GlobalService) {
     this.globalService.checkAuthenticationStatus();
+    this.globalService.checkUserStatus();
    }
    searchPosts() {
     return this.posts.filter(post => post.tittle.toLowerCase().includes(this.searchTerm.toLowerCase()));
@@ -43,10 +47,14 @@ export class PublicationsComponent  implements OnInit {
   createPost() {
     
   }
-  
+
   ngOnInit() {
     this.globalService.authenticated$.subscribe((value:boolean) => {
         this.authenticated.set(value);
+    });
+
+    this.globalService.user$.subscribe((value:TokenUser) => { 
+      this.fullName.set(value.user.fullName);
     });
   }
 }

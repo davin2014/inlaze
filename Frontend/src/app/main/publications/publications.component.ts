@@ -1,6 +1,7 @@
-import { Component,signal } from '@angular/core';
+import { Component,OnInit,signal } from '@angular/core';
 import { PublicationsCardComponent } from '../publications-card/publications-card.component';
 import { FormsModule } from '@angular/forms';
+import { GlobalService } from '../../services/global.service';
 
 @Component({
   selector: 'app-publications',
@@ -9,7 +10,7 @@ import { FormsModule } from '@angular/forms';
   templateUrl: './publications.component.html',
   styleUrl: './publications.component.css'
 })
-export class PublicationsComponent {
+export class PublicationsComponent  implements OnInit {
   authenticated = signal(false); 
   searchTerm: string = '';
    posts = [
@@ -25,16 +26,8 @@ export class PublicationsComponent {
    },
    ];
 
-  constructor() {
-    if (typeof localStorage !== 'undefined') {
-      const authenticatedItem = localStorage.getItem('authenticated');
-      if (authenticatedItem === 'true') {
-        this.authenticated.set(true);
-      }else{
-        this.authenticated.set(false);
-      }
-      
-    }
+  constructor(private globalService: GlobalService) {
+    this.globalService.checkAuthenticationStatus();
    }
    searchPosts() {
     return this.posts.filter(post => post.tittle.toLowerCase().includes(this.searchTerm.toLowerCase()));
@@ -49,5 +42,11 @@ export class PublicationsComponent {
 
   createPost() {
     
+  }
+  
+  ngOnInit() {
+    this.globalService.authenticated$.subscribe((value:boolean) => {
+        this.authenticated.set(value);
+    });
   }
 }

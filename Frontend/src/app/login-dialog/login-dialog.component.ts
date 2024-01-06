@@ -4,6 +4,7 @@ import { LoginService } from '../auth/login.service';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { CreateAccountDialogComponent } from '../create-account-dialog/create-account-dialog.component';
+import { GlobalService } from '../services/global.service';
 
 @Component({
   selector: 'app-login-dialog',
@@ -18,7 +19,8 @@ export class LoginDialogComponent {
     private loginService: LoginService,
     private _snackBar: MatSnackBar,
     private dialog: MatDialog,
-    private dialogRef: MatDialogRef<LoginDialogComponent>) {
+    private dialogRef: MatDialogRef<LoginDialogComponent>,
+    private globalService: GlobalService) {
     this.buildForm();
    }
 
@@ -31,10 +33,12 @@ export class LoginDialogComponent {
           console.log(res);
           localStorage.setItem('user', JSON.stringify(res) );
           localStorage.setItem('authenticated', 'true' );
+          this.globalService.setAuthenticated(true);
           this._snackBar.open('¡Bienvenido de nuevo a INLAZE! Estamos encantados de verte', 'Dance');
           this.dialogRef.close();
         }, (err) => {
           console.log(err);
+          this.globalService.setAuthenticated(false);
           this._snackBar.open('¡Oh no! Algo ha ido mal. Por favor, inténtalo de nuevo', 'Cry');
         });
     }

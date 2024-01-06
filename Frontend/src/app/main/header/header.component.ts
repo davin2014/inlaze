@@ -1,8 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, signal } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { LoginDialogComponent } from '../../login-dialog/login-dialog.component';
 import { User } from './../../interfaces/user.interface';
+import { GlobalService } from '../../services/global.service';
 
 @Component({
   selector: 'app-header',
@@ -11,7 +12,7 @@ import { User } from './../../interfaces/user.interface';
   templateUrl: './header.component.html',
   styleUrl: './header.component.css'
 })
-export class HeaderComponent {
+export class HeaderComponent implements OnInit {
   user: User = {
     age: 0,
     createdAt: "",
@@ -22,17 +23,15 @@ export class HeaderComponent {
     __v : 0,
     _id: ""
   };
-  authenticated: boolean = false; 
+  authenticated = signal(false);  
 
-  constructor(public dialog: MatDialog) { 
+  constructor(public dialog: MatDialog,
+    private globalService: GlobalService) { 
     if (typeof localStorage !== 'undefined') {
       const userItem = localStorage.getItem('user');
       this.user = userItem ? JSON.parse(userItem) : null;
     }
-    if (typeof localStorage !== 'undefined') {
-      const authenticatedItem = localStorage.getItem('authenticated');
-      this.authenticated = authenticatedItem ? JSON.parse(authenticatedItem) : false;
-    }
+    this.globalService.checkAuthenticationStatus();
   }
   login() {
     this.dialog.open(LoginDialogComponent);
@@ -41,6 +40,12 @@ export class HeaderComponent {
   logout() {
     localStorage.removeItem('user');
     localStorage.removeItem('authenticated');
-    this.authenticated = false;
+    
+  }
+
+  ngOnInit() {
+    this.globalService.authenticated$.subscribe((value:boolean) => {
+        this.authenticated.set(value);
+    });
   }
 }

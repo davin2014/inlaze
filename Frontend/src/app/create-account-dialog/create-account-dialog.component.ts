@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { UserService } from '../services/user.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-create-account-dialog',
@@ -14,7 +16,9 @@ export class CreateAccountDialogComponent {
   form: FormGroup = new FormGroup({});
 
   constructor(private fb: FormBuilder,
-    private userService: UserService) {
+    private _snackBar: MatSnackBar,
+    private userService: UserService,
+    private dialogRef: MatDialogRef<CreateAccountDialogComponent>) {
       this.formBuilder();
    }
    formBuilder() {
@@ -34,6 +38,12 @@ onSubmit(event: Event) {
     delete value.confirmPassword;
     this.userService.createUser(value).subscribe((user) => {
       console.log(user);
+      
+      this._snackBar.open('Usuario creado exitosamente', 'Dance');
+      this.dialogRef.close();
+    }, (err) => {
+      console.log(err);
+      this._snackBar.open('¡Oh no! Algo ha ido mal. Por favor, inténtalo de nuevo', 'Cry');
     });
   }
  }

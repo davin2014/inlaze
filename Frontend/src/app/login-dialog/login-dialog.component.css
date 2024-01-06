@@ -1,0 +1,46 @@
+.login-dialog-container {
+    width: 300px;
+    margin: 0 auto;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+  }
+  
+  .login-dialog-container h2 {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  .login-dialog-container .form-group {
+    margin-bottom: 15px;
+  }
+  
+  .login-dialog-container .form-group label {
+    display: block;
+    margin-bottom: 5px;
+  }
+  
+  .login-dialog-container .form-group .form-control {
+    width: 100%;
+    padding: 10px;
+    border-radius: 3px;
+    border: 1px solid #ddd;
+  }
+  
+  .login-dialog-container .form-group button {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 3px;
+    background-color: #ffc107;
+    color: white;
+    cursor: pointer;
+  }
+  
+  .login-dialog-container .form-group button:hover {
+    background-color: #ffc107;
+  }
+
+  .error-message {
+    color: red;
+  }

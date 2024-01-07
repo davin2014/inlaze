@@ -1,6 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, Schema as MongooseSchema } from 'mongoose';
-import { Post } from '../../post/entities/post.entity'; // Asegúrate de que la entidad Post esté definida e importada correctamente
+import { PostUser } from '../../post/entities/post.entity'; // Asegúrate de que la entidad Post esté definida e importada correctamente
 
 @Schema({ timestamps: true })
 export class User extends Document {
@@ -17,7 +17,7 @@ export class User extends Document {
   password: string;
 
   @Prop({ type: [{ type: MongooseSchema.Types.ObjectId, ref: 'Post' }] }) 
-  posts: Post[];
+  posts: PostUser[];
 
   
 }

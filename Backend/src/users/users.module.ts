@@ -5,7 +5,7 @@ import { UsersController } from './controller/users.controller';
 import { UsersService } from './service/users.service';
 import { User, UserSchema } from './entities/user.entity';
 
-import mongoose from 'mongoose';
+
 
 @Module({
     controllers: [UsersController],

@@ -4,6 +4,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { LoginDialogComponent } from '../../login-dialog/login-dialog.component';
 import { User } from './../../interfaces/user.interface';
 import { GlobalService } from '../../services/global.service';
+import { TokenUser } from '../../interfaces/token-user.inteface';
 
 @Component({
   selector: 'app-header',
@@ -42,6 +43,7 @@ export class HeaderComponent implements OnInit {
   logout() {
     localStorage.removeItem('user');
     localStorage.removeItem('authenticated');
+    this.authenticated.set(false);
     
   }
 

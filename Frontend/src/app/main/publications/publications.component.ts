@@ -4,11 +4,15 @@ import { FormsModule } from '@angular/forms';
 import { GlobalService } from '../../services/global.service';
 import { User } from '../../interfaces/user.interface';
 import { TokenUser } from '../../interfaces/token-user.inteface';
+import { MatDialog } from '@angular/material/dialog';
+import { CreatePostComponent } from '../../create-post/create-post.component';
+import { Post } from '../../interfaces/post.interface';
+import { PostService } from '../../services/post.service';
 
 @Component({
   selector: 'app-publications',
   standalone: true,
-  imports: [PublicationsCardComponent,FormsModule],
+  imports: [PublicationsCardComponent,FormsModule,CreatePostComponent],
   templateUrl: './publications.component.html',
   styleUrl: './publications.component.css'
 })
@@ -16,25 +20,17 @@ export class PublicationsComponent  implements OnInit {
   authenticated = signal(false); 
   fullName = signal('anonimo');
   searchTerm: string = '';
-   posts = [
-    {
-       _id: 'gbtttbbtttttt',
-       tittle: 'Post 1', 
-       content: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla euismod, nisl quis ultricies ultricies, nunc nisl aliquam nisl, vitae aliquam nisl nisl eget nisl. Sed euismod, nisl quis ultricies ultricies, nunc nisl aliquam nisl, vitae aliquam nisl nisl eget nisl. Sed euismod, nisl quis ultricies ultricies, nunc nisl aliquam nisl, vitae aliquam nisl nisl eget nisl. Sed euismod, nisl quis ultricies ultricies, nunc nisl aliquam nisl, vitae aliquam nisl nisl eget nisl. Sed euismod, nisl quis ultricies ultricies, nunc nisl aliquam nisl, vitae aliquam nisl nisl eget nisl. Sed euismod, nisl quis ultricies ultricies, nunc nisl aliquam nisl, vitae aliquam nisl nisl eget nisl.' 
-    },
-    {
-      _id: 'gbgggggggg',
-      tittle: 'Post 2', 
-      content: 'Aenean lacinia bibendum nulla sed consectetur. Vestibulum id ligula porta felis euismod semper. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula porta felis euismod semper. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.' 
-   },
-   ];
+   posts:Post[] = [];
 
-  constructor(private globalService: GlobalService) {
+  constructor(private globalService: GlobalService,
+    private dialog: MatDialog,
+    private postService: PostService) {
     this.globalService.checkAuthenticationStatus();
     this.globalService.checkUserStatus();
+    this.getPosts();
    }
    searchPosts() {
-    return this.posts.filter(post => post.tittle.toLowerCase().includes(this.searchTerm.toLowerCase()));
+    return this.posts.filter((post:Post) => post.title.toLowerCase().includes(this.searchTerm.toLowerCase()));
   }
   editPost(post:any) {
     // Implement your edit functionality here
@@ -45,7 +41,14 @@ export class PublicationsComponent  implements OnInit {
   }
 
   createPost() {
-    
+    this.dialog.open(CreatePostComponent, {
+      width: '600px',
+      height: '500px',
+      data: {
+        title: 'Create Post',
+        post: {}
+      }
+    });
   }
 
   ngOnInit() {
@@ -55,6 +58,12 @@ export class PublicationsComponent  implements OnInit {
 
     this.globalService.user$.subscribe((value:TokenUser) => { 
       this.fullName.set(value.user.fullName);
+    });
+  }
+
+  getPosts() {
+    this.postService.getPosts().subscribe((posts:Post[]) => {
+      this.posts = posts;
     });
   }
 }

@@ -28,7 +28,8 @@ import { AuthModule } from './auth/auth.module';
     }
   ), 
    
-   UsersModule, 
+   UsersModule,
+   PostModule, 
    DatabaseModule, 
    AuthModule],
   controllers: [AppController],

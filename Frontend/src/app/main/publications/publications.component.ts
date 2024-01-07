@@ -59,6 +59,12 @@ export class PublicationsComponent  implements OnInit {
     this.globalService.user$.subscribe((value:TokenUser) => { 
       this.fullName.set(value.user.fullName);
     });
+
+    this.globalService.posts$.subscribe((value:Post[]) => {
+      if (value.length !== 0) {
+          this.posts = value;
+      }
+    });
   }
 
   getPosts() {

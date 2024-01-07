@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 
 import { TokenUser } from '../interfaces/token-user.inteface';
+import { Post } from '../interfaces/post.interface';
+import { PostService } from './post.service';
 
 @Injectable({
   providedIn: 'root'
@@ -25,6 +27,12 @@ export class GlobalService {
   }
   });
   user$ = this.user.asObservable();
+
+  private posts = new BehaviorSubject<Post[]>([]);
+  posts$ = this.posts.asObservable();
+  
+
+  constructor(private postService: PostService) { }
 
   setAuthenticated(value: boolean) {
     this.authenticated.next(value);
@@ -67,4 +75,17 @@ export class GlobalService {
       }
     }
   }
+
+  setPosts(posts: Post[]) {
+    this.posts.next(posts);
+  }
+
+  getPosts() {
+    this.postService.getPosts().subscribe((posts:Post[]) => {
+      this.setPosts(posts);
+    });
+    
+  }
+
+
 }

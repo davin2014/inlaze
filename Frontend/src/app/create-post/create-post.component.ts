@@ -15,8 +15,7 @@ import { MatDialogRef } from '@angular/material/dialog';
 })
 export class CreatePostComponent implements OnInit {
   postForm: FormGroup = new FormGroup({});
-  @Input() post: Post = {} as Post;
-  @Output() postCreated = new EventEmitter<Post>();
+  
 
   constructor(private fb: FormBuilder, 
     private postService: PostService,
@@ -46,10 +45,17 @@ export class CreatePostComponent implements OnInit {
       this.postService.createPost(post).subscribe(response => {
         this._snackBar.open('Post creado exitosamente', 'Dance');
         this.dialogRef.close();
+        this.setPosts();
       }, (err) => {
         console.log(err);
         this._snackBar.open('¡Oh no! Algo ha ido mal. Por favor, inténtalo de nuevo', 'Cry');
       });
     }
+  }
+
+  setPosts() {
+    this.postService.getPosts().subscribe(posts => {
+    this.globalService.setPosts(posts);
+    });
   }
 }

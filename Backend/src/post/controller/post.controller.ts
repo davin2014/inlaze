@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, UseGuards } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { PostService } from '../service/post.service';
 import { PostUser } from '../entities/post.entity';
@@ -16,12 +16,17 @@ export class PostController {
     }
 
     @Get('/post/:id')
-    getPost(id: string) {
+    getPost(@Param('id') id: string) {
         return this.postService.getPost(id);
     }
 
     @Post()
     createPost(@Body() data:PostUser) {
         return this.postService.createPost(data);
+    }
+
+    @Delete('/post/:id')
+    deletePost(@Param('id') id: string) {
+        return this.postService.deletePost(id);
     }
 }

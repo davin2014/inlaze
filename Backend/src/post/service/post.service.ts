@@ -3,7 +3,7 @@ import { Db } from 'mongodb';
 import { InjectModel } from '@nestjs/mongoose';
 
 import { PostUser } from '../entities/post.entity';
-import { Model } from 'mongoose';
+import { Model, Types } from 'mongoose';
 
 @Injectable()
 export class PostService {
@@ -22,5 +22,10 @@ export class PostService {
 
     createPost(data: PostUser) {
         return this.db.collection('posts').insertOne(data);
+    }
+
+    deletePost(_id: string) {
+        const objectId = new Types.ObjectId(_id);
+        return this.db.collection('posts').deleteOne({ _id: objectId });
     }
 }

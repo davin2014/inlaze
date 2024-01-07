@@ -1,0 +1,22 @@
+button {
+    background-color: #fd0000; /* Color de fondo rojo */
+    border: none; /* No borde */
+    color: white; /* Texto blanco */
+    padding: 2px 4px; /* Espaciado alrededor del texto */
+    text-align: center; /* Centrar texto */
+    text-decoration: none; /* No subrayado */
+    display: inline-block;
+    font-size: 12px;
+    margin: 2px 2px;
+    cursor: pointer; /* Cursor de mano al pasar el ratón */
+    border-radius: 4px; /* Bordes redondeados */
+    float: right; /* Posicionar al lado izquierdo */
+  }
+  
+  .app-publications-card {
+    background-color: #f9f9f9; /* Color de fondo gris claro */
+    border: 1px solid #ccc; /* Borde gris */
+    padding: 15px; /* Espaciado alrededor del contenido */
+    margin-bottom: 15px; /* Espacio debajo de cada tarjeta */
+    border-radius: 4px; /* Bordes redondeados */
+  }

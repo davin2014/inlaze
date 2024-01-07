@@ -83,7 +83,7 @@
 
 
                         @for (post of searchPosts(); track post._id) {
-                            <app-publications-card [tittle]="post.title" [content]="post.content"></app-publications-card>
+                            <app-publications-card [tittle]="post.title" [content]="post.content" [id]="post._id"></app-publications-card>
                           } @empty {
                             Empty list of users
                           }
